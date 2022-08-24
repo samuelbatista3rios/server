@@ -1,11 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const db = require("./db");
+const cors=require("cors")
+const morgan = require("morgan");
 
 const app = express();
-const morgan = require("morgan");
 app.use(express.json());
-
+app.use(cors());
 //app.use(morgan("dev"))
 
 /*app.use((req, res, next) =>{
@@ -15,10 +16,10 @@ app.use(express.json());
 
 //Routes//
 //Get all
-app.get("/api/v1/caminhao", async (req, res) => {
+app.get("/api/v1/", async (req, res) => {
   try {
     const results = await db.query("SELECT * FROM caminhao.post");
-    console.log(results);
+    //console.log(results);
     res.status(200).json({
       status: "sucess",
       results: results.rows.length, //caminhao: 'teste',
@@ -32,7 +33,7 @@ app.get("/api/v1/caminhao", async (req, res) => {
 });
 
 //Get a one
-app.get("/api/v1/caminhao/:id", async (req, res) => {
+app.get("/api/v1/:id", async (req, res) => {
   console.log(req.params.id);
 
   try {
@@ -56,7 +57,7 @@ app.get("/api/v1/caminhao/:id", async (req, res) => {
 
 //Create
 
-app.post("/api/v1/all", async (req, res) => {
+app.post("/api/v1/", async (req, res) => {
   console.log(req.body);
   try {
     const results = await db.query(
@@ -105,7 +106,7 @@ app.post("/api/v1/all", async (req, res) => {
 */
 
 //update
-app.put("/api/v1/all/:id", async (req, res) => {
+app.put("/api/v1/:id", async (req, res) => {
   //console.log(req.params.id)
   //console.log(req.body);
   try {
@@ -136,7 +137,7 @@ app.put("/api/v1/all/:id", async (req, res) => {
 });
 
 //delete
-app.delete("/api/v1/all/:id", (req, res) => {
+app.delete("/api/v1/:id", (req, res) => {
   try {
         const results = db.query("DELETE FROM caminhao.post where id = $1", [
           req.params.id,
@@ -149,7 +150,7 @@ app.delete("/api/v1/all/:id", (req, res) => {
 }
 });
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3100;
 
 app.listen(port, () => {
   console.log(`server has started on port ${port}`);
