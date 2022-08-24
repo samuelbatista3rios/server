@@ -7,10 +7,6 @@ const morgan = require("morgan");
 const app = express();
 app.use(express.json());
 
-app.use((req,res, next)=>{
-   res.header("Access-Control-Allow-Oringin", "*");
-   res.header("Access-Control-Allow-Oringin", "GE")
-})
 app.use(cors());
 //app.use(morgan("dev"))
 
